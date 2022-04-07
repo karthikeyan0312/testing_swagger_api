@@ -52,15 +52,15 @@ swagger = Swagger(app,config=swagger_config,template=template)
 def load_model():
   
 
-    with gzip.open(r"C:\Users\User\Desktop\ipl-score-predictor-main\artifacts\model.pickle.gz", "rb") as f:
+    with gzip.open(r"app/model/model.pickle.gz", "rb") as f:
         model = pk.load(f)
 
-    with open(r"C:\Users\User\Desktop\ipl-score-predictor-main\artifacts\scaler(1).pickle", "rb") as f:
+    with open(r"app/model/scaler(1).pickle", "rb") as f:
         scaler = pk.load(f)
-    with open(r"C:\Users\User\Desktop\ipl-score-predictor-main\artifacts\columns.json", "r") as f:
+    with open(r"app/model/columns.json", "r") as f:
         columns = np.array(json.load(f)["columns"])
 
-    with open(r"C:\Users\User\Desktop\ipl-score-predictor-main\artifacts\encodedteams.json", "r") as f:
+    with open(r"app/model/encodedteams.json", "r") as f:
         teams = json.load(f) 
 
     return model,scaler,columns,list(teams.keys()), list(columns[7:]) + ["Barabati Stadium"]
