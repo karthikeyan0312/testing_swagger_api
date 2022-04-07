@@ -60,15 +60,15 @@ swagger = Swagger(app,config=swagger_config,template=template)
 def load_model():
   
 
-    with gzip.open(r"/model/model.pickle.gz", "rb") as f:
+    with gzip.open(r"/opt/render/project/src/model/model.pickle.gz", "rb") as f:
         model = pk.load(f)
 
-    with open(r"/model/scaler(1).pickle", "rb") as f:
+    with open(r"/opt/render/project/src/model/scaler(1).pickle", "rb") as f:
         scaler = pk.load(f)
-    with open(r"/model/columns.json", "r") as f:
+    with open(r"/opt/render/project/src/model/columns.json", "r") as f:
         columns = np.array(json.load(f)["columns"])
 
-    with open(r"/model/encodedteams.json", "r") as f:
+    with open(r"/opt/render/project/src/model/encodedteams.json", "r") as f:
         teams = json.load(f) 
 
     return model,scaler,columns,list(teams.keys()), list(columns[7:]) + ["Barabati Stadium"]
