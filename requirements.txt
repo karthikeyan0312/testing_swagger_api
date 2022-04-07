@@ -2,8 +2,8 @@ pickle-mixin
 flask
 flask_cors
 flask_restful
+cachetools
 flasgger
 gunicorn
 numpy
 scikit-learn
-cachetools
