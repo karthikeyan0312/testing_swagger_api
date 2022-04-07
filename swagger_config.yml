@@ -1,0 +1,62 @@
+summary: "Predict Cricket Score"
+description: "This is RESTful api used for predicting cricket score"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+parameters:
+- in: "body"
+  name: "Data"
+  description: "Paramaters required for predicting"
+  required: true
+  schema:
+    type: "object"
+    properties:
+      over:
+        type: "integer"
+        format: "int64"
+        example : 7
+      wickets:
+        type: "integer"
+        format: "int64"
+        example : 0
+      runs:
+        type: "integer"
+        format: "int64"
+        example : 52
+      last_5_over_wickets:
+        type: "integer"
+        format: "int64"
+        example : 0
+      last_5_over_runs:
+        type: "integer"
+        format: "int64"
+        example : 24
+      batting_team:
+        type: "string"
+        example : "Sunrisers Hyderabad"
+      bowling_team:
+        type: "string"
+        example : "Delhi Capitals"
+      venue:
+        type: "string"
+        example : "Sheikh Zayed Stadium"
+definitions:
+  Result:
+    type: object
+    properties:
+      score:
+        type: integer
+        example: 150
+
+responses:
+  200:
+    description: "ok"
+    schema:
+      $ref: '#/definitions/Result'
+  
+  405:
+    description: "Invalid input"
+
+
+
