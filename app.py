@@ -54,15 +54,15 @@ swagger = Swagger(app,config=swagger_config,template=template)
 def load_model():
   
 
-    with gzip.open(r"/app/model/model.pickle.gz", "rb") as f:
+    with gzip.open(r"/model/model.pickle.gz", "rb") as f:
         model = pk.load(f)
 
-    with open(r"/app/model/scaler(1).pickle", "rb") as f:
+    with open(r"/model/scaler(1).pickle", "rb") as f:
         scaler = pk.load(f)
-    with open(r"/app/model/columns.json", "r") as f:
+    with open(r"/model/columns.json", "r") as f:
         columns = np.array(json.load(f)["columns"])
 
-    with open(r"/app/model/encodedteams.json", "r") as f:
+    with open(r"/model/encodedteams.json", "r") as f:
         teams = json.load(f) 
 
     return model,scaler,columns,list(teams.keys()), list(columns[7:]) + ["Barabati Stadium"]
@@ -110,6 +110,7 @@ class Randomforest(Resource):
         bowling_team = data["bowling_team"]
         venue = data["venue"]
         score =  int(predict_score(over, wickets, runs, last_5_over_wickets, last_5_over_runs, batting_team, bowling_team, venue))
+        del data,score
         gc.collect()
         cache.clear()
         return jsonify({"score": score})
