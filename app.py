@@ -7,6 +7,12 @@ from flask_restful import Api, Resource,request
 from flasgger.utils import swag_from
 import gc
 from cachetools import cached, TTLCache
+import os
+
+#to get the current working directory
+directory = os.getcwd()
+
+print(directory)
 
 
 app = Flask(__name__)
@@ -93,6 +99,7 @@ def predict_score(overs, wickets, runs, wickets_last_5, runs_last_5, bat_team, b
         return result
     except Exception as e:
         print(e)
+        print(directory)
         return 1 # error code 1
 
 class Randomforest(Resource):
@@ -119,6 +126,6 @@ api.add_resource(Randomforest, '/v1/model')
 
 if __name__ == "__main__":
     #print(predict_score(7, 0, 52, 0, 24, "Sunrisers Hyderabad", "Delhi Capitals", "Sheikh Zayed Stadium"))
-
+    
     app.run(debug=True)
     
