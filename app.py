@@ -10,7 +10,7 @@ from cachetools import cached, TTLCache
 import os
 
 #to get the current working directory
-directory = os.getcwd()
+directory = os.path.dirname(os.path.realpath(__file__))
 
 print(directory)
 
