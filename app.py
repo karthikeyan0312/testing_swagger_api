@@ -25,7 +25,7 @@ swagger_config = {
     "static_url_path": "/flasgger_static",
     # "static_folder": "static",  # must be set by user
     "swagger_ui": True,
-    "specs_route": "/swagger/",
+    "specs_route": "/",
 }
 template = {
   "swagger": "2.0",
@@ -42,8 +42,8 @@ template = {
     "version": "1.0.0"
   },
   "schemes": [
-    "http",
-    "https"
+    "https",
+    "http"
   ],
 }
 
@@ -52,15 +52,15 @@ swagger = Swagger(app,config=swagger_config,template=template)
 def load_model():
   
 
-    with gzip.open(r"app/model/model.pickle.gz", "rb") as f:
+    with gzip.open(r"/app/model/model.pickle.gz", "rb") as f:
         model = pk.load(f)
 
-    with open(r"app/model/scaler(1).pickle", "rb") as f:
+    with open(r"/app/model/scaler(1).pickle", "rb") as f:
         scaler = pk.load(f)
-    with open(r"app/model/columns.json", "r") as f:
+    with open(r"/app/model/columns.json", "r") as f:
         columns = np.array(json.load(f)["columns"])
 
-    with open(r"app/model/encodedteams.json", "r") as f:
+    with open(r"/app/model/encodedteams.json", "r") as f:
         teams = json.load(f) 
 
     return model,scaler,columns,list(teams.keys()), list(columns[7:]) + ["Barabati Stadium"]
