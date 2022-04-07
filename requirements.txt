@@ -6,3 +6,4 @@ flasgger
 gunicorn
 numpy
 scikit-learn
+cachetools
