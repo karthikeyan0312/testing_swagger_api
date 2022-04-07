@@ -6,11 +6,12 @@ from flasgger import Swagger
 from flask_restful import Api, Resource,request
 from flasgger.utils import swag_from
 import gc
-import warnings
-warnings.filterwarnings("ignore")
+from cachetools import cached, TTLCache
+
 
 app = Flask(__name__)
 api = Api(app)
+cache = TTLCache(maxsize=100, ttl=100)
 
 swagger_config = {
     "headers": [],
@@ -49,6 +50,7 @@ template = {
 
 swagger = Swagger(app,config=swagger_config,template=template)
 
+@cached(cache)
 def load_model():
   
 
@@ -109,6 +111,7 @@ class Randomforest(Resource):
         venue = data["venue"]
         score =  int(predict_score(over, wickets, runs, last_5_over_wickets, last_5_over_runs, batting_team, bowling_team, venue))
         gc.collect()
+        cache.clear()
         return jsonify({"score": score})
 
 api.add_resource(Randomforest, '/v1/model')
