@@ -124,6 +124,7 @@ class Randomforest(Resource):
         cache.clear()
         return jsonify({"score": score})
     
+    @swag_from("swagger_config2.yml")
     def get(self):
         req=request.args.to_dict()["model_details"]
         data=None
