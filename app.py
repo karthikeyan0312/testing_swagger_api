@@ -35,7 +35,7 @@ swagger_config = {
     "specs_route": "/",
 }
 template = {
-  "swagger": "2.0",
+  "swaggerUI": "3.28.0",
   "info": {
     "title": "RESTful API",
     "description": "cricket score prediction",
@@ -98,8 +98,6 @@ def predict_score(overs, wickets, runs, wickets_last_5, runs_last_5, bat_team, b
 
         return result
     except Exception as e:
-        print(e)
-        print(directory)
         return 1 # error code 1
 
 class Randomforest(Resource):
@@ -107,6 +105,8 @@ class Randomforest(Resource):
     def post(self):
 
         data = json.loads(request.get_data())
+        if(len(data)!=8):
+            return {"Error":"Invalid Input"},400
         
         over= data["over"]
         wickets = data["wickets"]
@@ -117,15 +117,58 @@ class Randomforest(Resource):
         bowling_team = data["bowling_team"]
         venue = data["venue"]
         score =  int(predict_score(over, wickets, runs, last_5_over_wickets, last_5_over_runs, batting_team, bowling_team, venue))
+        if score == 1:
+            return {"Error":"Invalid Input"},400
         del data
         gc.collect()
         cache.clear()
         return jsonify({"score": score})
+    
+    def get(self):
+        req=request.args.to_dict()["model_details"]
+        data=None
+        if req == "Best Parameter":
+            data={'criterion': 'mse',
+                    'max_depth': 20,
+                    'max_features': 'log2',
+                    'max_leaf_nodes': None,
+                    'min_samples_leaf': 5,
+                    'min_samples_split': 15,
+                    'n_estimators': 300}
+        elif req == "Best Estimators":
+            data={'criterion':'mse', 'max_depth':20, 'max_features':'log2',
+                      'min_samples_leaf':5, 'min_samples_split':15,
+                      'n_estimators':300}
+        elif req == "Best Score":
+            data={"Best Score": 67.36}
+        elif req == "All":
+            data={
+            "cv":5, 
+            "estimator":"RandomForestRegressor()", 
+            "n_iter":15,
+            "n_jobs":-1,
+            "param_distributions": {
+            'criterion':['mse', 'friedman_mse'],
+            'max_depth': [1, 3, 5, 7, 9, 10, 11, 12,14, 15, 18, 20, 25, 28,30, 33, 38, 40],
+
+            'max_features': ['auto', 'log2', 'sqrt',None],
+
+            'max_leaf_nodes': [None, 10, 20, 30, 40,50, 60, 70, 80, 90],
+
+            'min_samples_leaf': [1, 2, 3, 4, 5, 6,7, 8, 9, 10],
+
+            'min_samples_split': [2, 4, 6, 8, 10,15, 20],
+
+            'n_estimators': [100, 200, 300]},
+
+            "random_state":4, "verbose":2}
+        else:
+            return {"Error" : "Invalid Input"},400
+        return jsonify(data)
+
 
 api.add_resource(Randomforest, '/v1/model')
 
-if __name__ == "__main__":
-    #print(predict_score(7, 0, 52, 0, 24, "Sunrisers Hyderabad", "Delhi Capitals", "Sheikh Zayed Stadium"))
-    
-    app.run(debug=True)
+if __name__ == "__main__":    
+    app.run()
     
