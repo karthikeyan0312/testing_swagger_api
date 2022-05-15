@@ -1,0 +1,106 @@
+tags:
+  - APIs
+summary: "get model details"
+description: "This provides you the details of the trained model"
+
+parameters:
+  - name: model_details
+    in: query
+    type: string
+    enum: ['All', Best Parameter, Best Score,Best Estimators]
+    required: true
+    default: All
+
+definitions:
+  Model_Details:
+    type: object
+    properties:
+      Best Parameter/ Best Estimators:
+        type: object
+        properties:
+          cv:
+            type: integer
+            example: 5
+          max_depth:
+            type: integer
+            example: 20
+          max_features:
+            type: string
+            example: log
+          min_samples_leaf:
+            type: integer
+            example: 5
+          min_samples_split:
+            type: integer
+            example: 20
+          n_estimators:
+            type: integer
+            example: 200
+      Best Score:
+        type: number
+        example: 80.67
+      All:
+        type: object
+        properties:
+          cv:
+            type: integer
+            example: 5
+          estimator:
+            type: string
+            example: Randomforest
+          n_iter:
+            type: integer
+            example: 15
+          n_jobs:
+            type: integer
+            example: -1
+          param_distributions:
+            type: object
+            properties:
+              criterion:
+                type: array
+                items:
+                  type: string
+              max_depth:
+                type: array
+                items:
+                  type: integer
+              max_features:
+                type: array
+                items:
+                  type: string
+              max_leaf_nodes:
+                type: array
+                items:
+                  type: integer
+              min_samples_leaf:
+                type: array
+                items:
+                  type: integer
+              min_samples_split:
+                type: array
+                items:
+                  type: integer
+              n_estimators:
+                type: array
+                items:
+                  type: integer
+              random_state:
+                type: integer
+              verbose:
+                type: integer
+  Error:
+    type: object 
+    properties:
+      Error:
+        type: string
+        example: invalid input 
+responses:
+  200:
+    description: ok
+    schema:
+      $ref: '#/definitions/Model_Details'
+  400:
+    description: "Bad Request"
+    schema:
+      $ref: '#/definitions/Error'
