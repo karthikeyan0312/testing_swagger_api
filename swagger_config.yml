@@ -1,5 +1,7 @@
-summary: "Predict Cricket Score"
-description: "This is RESTful api used for predicting cricket score"
+tags:
+  - "APIs"
+summary: "send prediction data"
+description: "Enter all data in given format, for the model to predict"
 consumes:
 - "application/json"
 produces:
@@ -48,6 +50,12 @@ definitions:
       score:
         type: integer
         example: 150
+  Error:
+    type: object 
+    properties:
+      Error:
+        type: string
+        example: invalid input
 
 responses:
   200:
@@ -55,8 +63,10 @@ responses:
     schema:
       $ref: '#/definitions/Result'
   
-  405:
-    description: "Invalid input"
+  400:
+    description: "Bad Request"
+    schema:
+      $ref: '#/definitions/Error'
 
 
 
