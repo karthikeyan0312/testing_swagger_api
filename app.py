@@ -8,7 +8,8 @@ from flasgger.utils import swag_from
 import gc
 from cachetools import cached, TTLCache
 import os
-
+from flask_cors import CORS
+from flask_cors import cross_origin
 #to get the current working directory
 directory = os.path.dirname(os.path.realpath(__file__))
 
@@ -16,6 +17,7 @@ print(directory)
 
 
 app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 api = Api(app)
 cache = TTLCache(maxsize=100, ttl=100)
 
@@ -102,6 +104,7 @@ def predict_score(overs, wickets, runs, wickets_last_5, runs_last_5, bat_team, b
 
 class Randomforest(Resource):
     @swag_from("swagger_config.yml")
+    @cross_origin()
     def post(self):
 
         data = json.loads(request.get_data())
