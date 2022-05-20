@@ -103,7 +103,7 @@ def predict_score(overs, wickets, runs, wickets_last_5, runs_last_5, bat_team, b
         return 1 # error code 1
 
 class Randomforest(Resource):
-    @swag_from("swagger_config.yml")
+    @swag_from(directory +"swagger_config.yml")
     @cross_origin()
     def post(self):
 
@@ -127,7 +127,7 @@ class Randomforest(Resource):
         cache.clear()
         return jsonify({"score": score})
     
-    @swag_from("swagger_config2.yml")
+    @swag_from(directory +"swagger_config2.yml")
     def get(self):
         req=request.args.to_dict()["model_details"]
         data=None
