@@ -107,7 +107,7 @@ class Randomforest(Resource):
     @cross_origin()
     def post(self):
 
-        data = json.loads(request.get_data())
+        data = request.get_data()
         print(data)
         return jsonify({})
     
