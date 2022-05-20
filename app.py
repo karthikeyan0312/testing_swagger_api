@@ -108,6 +108,7 @@ class Randomforest(Resource):
     def post(self):
 
         data = json.loads(request.get_data())
+        print(data)
         if(len(data)!=8):
             return {"Error":"Invalid Input"},400
         
