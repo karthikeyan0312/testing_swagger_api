@@ -174,5 +174,5 @@ class Randomforest(Resource):
 api.add_resource(Randomforest, '/v1/model')
 
 if __name__ == "__main__":    
-    app.run()
+    app.run(debug=True)
     
