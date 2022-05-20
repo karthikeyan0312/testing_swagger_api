@@ -128,6 +128,7 @@ class Randomforest(Resource):
         return jsonify({"score": score})
     
     @swag_from(directory +"/swagger_config2.yml")
+    @cross_origin()
     def get(self):
         req=request.args.to_dict()["model_details"]
         data=None
@@ -174,5 +175,5 @@ class Randomforest(Resource):
 api.add_resource(Randomforest, '/v1/model')
 
 if __name__ == "__main__":    
-    app.run(debug=True)
+    app.run()
     
