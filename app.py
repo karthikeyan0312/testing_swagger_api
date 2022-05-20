@@ -109,7 +109,26 @@ class Randomforest(Resource):
 
         data = request.get_data()
         print(data)
-        return jsonify({})
+        print(type(data))
+        if(len(data)!=8):
+            return {"Error":"Invalid Input"},400
+        
+        over= data["over"]
+        wickets = data["wickets"]
+        runs = data["runs"]
+        last_5_over_wickets = data["last_5_over_wickets"]
+        last_5_over_runs = data["last_5_over_runs"]
+        batting_team = data["batting_team"]
+        bowling_team = data["bowling_team"]
+        venue = data["venue"]
+        score =  int(predict_score(over, wickets, runs, last_5_over_wickets, last_5_over_runs, batting_team, bowling_team, venue))
+        if score == 1:
+            return {"Error":"Invalid Input"},400
+        del data
+        gc.collect()
+        cache.clear()
+        return jsonify({"score": score})
+        #return jsonify({})
     
     @swag_from(directory +"/swagger_config2.yml")
     @cross_origin()
