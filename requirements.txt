@@ -1,5 +1,6 @@
 pickle-mixin
 flask
+flask-cors
 flask_restful
 cachetools
 flasgger
