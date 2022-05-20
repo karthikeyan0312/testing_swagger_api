@@ -121,8 +121,8 @@ class Randomforest(Resource):
         batting_team = data["batting_team"]
         bowling_team = data["bowling_team"]
         venue = data["venue"]
-        print(over,venue,runs)
-        score = 0 # int(predict_score(over, wickets, runs, last_5_over_wickets, last_5_over_runs, batting_team, bowling_team, venue))
+        #print(over,venue,runs)
+        score = int(predict_score(over, wickets, runs, last_5_over_wickets, last_5_over_runs, batting_team, bowling_team, venue))
         if score == 1:
             return {"Error":"Invalid Input"},400
         del data
