@@ -90,7 +90,8 @@ def predict_score(overs, wickets, runs, wickets_last_5, runs_last_5, bat_team, b
         if venue != "Barabati Stadium":
             # because i removed first columns for prevent dummy variable trap
             # and first column of venue was Barabati Stadium
-            venue_index = np.where(columns == venue)[0][0]
+            venue_pos = np.where(columns == venue)[0][0]
+            X_pred[venue_pos] = 1
 
         X_pred = scaler.transform([X_pred])
 
